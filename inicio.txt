@@ -1,0 +1,197 @@
+Ejecutamos contenedor con mongoDB:
+sudo docker run --rm --name mongo mongo:3.6.22-xenial
+
+Abrimos nueva consola y escribimos:
+sudo docker exec -it mongo /bin/bash
+
+Escribimos mongo y estamos dentro de mongoDB
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> 
+
+> use crm
+switched to db crm
+> 
+> show collections
+> 
+
+> db.getCollectionNames()
+[ ]
+> 
+Creo un cliente por consola:
+
+db.clientes.insert( { id: 1, nombre: "Juan", tipo: "A", vents: 150 } )
+> db.clientes.insert( { id: 1, nombre: "David", tipo: "B", vents: 50 } )
+WriteResult({ "nInserted" : 1 })
+> db.clientes.insert( { id: 1, nombre: "Roger", tipo: "B", vents: 250 } )
+WriteResult({ "nInserted" : 1 })
+> db.clientes.insert( { id: 1, nombre: "Pepe", tipo: "A", vents: 25 } )
+WriteResult({ "nInserted" : 1 })
+> 
+
+Buscar clientes:
+db.clientes.find()
+
+> db.clientes.find()
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+> 
+
+Oredenar por nombre Ascendente:
+db.clientes.find().sort( { nombre: 1 } )
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
+> 
+
+Oredenar por nombre Descendente:
+db.clientes.find().sort( { nombre: -1 } )
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
+> 
+
+Formato mas legible:
+> db.clientes.find().sort( { nombre: -1 } ).pretty()
+{
+        "_id" : ObjectId("6435c6dfa9403c3eeba8de33"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "vents" : 250
+}
+{
+        "_id" : ObjectId("6435c6f6a9403c3eeba8de34"),
+        "id" : 1,
+        "nombre" : "Pepe",
+        "tipo" : "A",
+        "vents" : 25
+}
+{
+        "_id" : ObjectId("6435c689a9403c3eeba8de31"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "vents" : 150
+}
+{
+        "_id" : ObjectId("6435c6cba9403c3eeba8de32"),
+        "id" : 1,
+        "nombre" : "David",
+        "tipo" : "B",
+        "vents" : 50
+}
+> 
+
+Buscar por tipo B:
+> db.clientes.find( { tipo: "B" } ).sort( { nombre: -1 } ).pretty()
+{
+        "_id" : ObjectId("6435c6dfa9403c3eeba8de33"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "vents" : 250
+}
+{
+        "_id" : ObjectId("6435c6cba9403c3eeba8de32"),
+        "id" : 1,
+        "nombre" : "David",
+        "tipo" : "B",
+        "vents" : 50
+}
+> 
+
+Buscar los clientes que hemos facturado 150€ o mas:
+ db.clientes.find({ vents: { $gte: 150 } }).sort({ nombre: 1 }).pretty()
+{
+        "_id" : ObjectId("6435c689a9403c3eeba8de31"),
+        "id" : 1,
+        "nombre" : "Juan",
+        "tipo" : "A",
+        "vents" : 150
+}
+{
+        "_id" : ObjectId("6435c6dfa9403c3eeba8de33"),
+        "id" : 1,
+        "nombre" : "Roger",
+        "tipo" : "B",
+        "vents" : 250
+}
+> 
+
+Cambiar el id a cada elemento de la tabla del 2 al 4:
+
+db.clientes.updateMany({ nombre: "David" }, { $set: { id: 2 } })
+db.clientes.updateMany({ nombre: "Roger" }, { $set: { id: 3 } })
+db.clientes.updateMany({ nombre: "Pepe" }, { $set: { id: 4 } })
+
+Queremos actualizar el registro3 y le añadimos una serie de campos:
+db.clientes.update( { id: 3 }, { $set: { apellidos: "Gracia" } } )
+
+
+TENEMOS CREATE READ y UPDATE DE AQUI HACIA ARRIBA:
+
+ELIMINAR REGISTRO:
+db.clientes.remove( { id: 3 } )> db.clientes.find()
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 2, "nombre" : "David", "tipo" : "B", "vents" : 50 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 4, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+> 
+
+Queremos saber cuanteas ventas hemops hecho al cliente del tipo A o B:
+
+db.clientes.aggregate( [ { $match: {} },   { $group: { _id: { tipo: "$tipo" }, total: { $sum: "$vents" } } } ] )
+{ "_id" : { "tipo" : "B" }, "total" : 50 }
+{ "_id" : { "tipo" : "A" }, "total" : 175 }
+> 
+
+EXPORTAMOS DATOS CRM:
+
+Salimos de mongo 
+> exit
+bye
+root@1f2a990af769:/#
+mongoexport --db crm --collection clientes --out clientes.json
+2023-04-11T21:48:38.275+0000    connected to: localhost
+2023-04-11T21:48:38.275+0000    exported 3 records
+root@1f2a990af769:/# cat clientes.json 
+{"_id":{"$oid":"6435c689a9403c3eeba8de31"},"id":1.0,"nombre":"Juan","tipo":"A","vents":150.0}
+{"_id":{"$oid":"6435c6cba9403c3eeba8de32"},"id":2.0,"nombre":"David","tipo":"B","vents":50.0}
+{"_id":{"$oid":"6435c6f6a9403c3eeba8de34"},"id":4.0,"nombre":"Pepe","tipo":"A","vents":25.0}
+root@1f2a990af769:/# 
+
+IMPORTAMOS DATOS CRM:
+mongoimport --db crm --collection clientes2 --file clientes.json
+root@1f2a990af769:/# mongoimport --db crm --collection clientes2 --file clientes.json
+2023-04-11T21:51:35.722+0000    connected to: localhost
+2023-04-11T21:51:35.737+0000    imported 3 documents
+root@1f2a990af769:/# 
+
+root@1f2a990af769:/# mongo
+MongoDB shell version v3.6.22
+connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("96e15049-43f7-41bc-a39f-0e7204c4288e") }
+MongoDB server version: 3.6.22
+Server has startup warnings: 
+2023-04-11T20:33:32.500+0000 I STORAGE  [initandlisten] 
+2023-04-11T20:33:32.500+0000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2023-04-11T20:33:32.500+0000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2023-04-11T20:33:33.308+0000 I CONTROL  [initandlisten] 
+2023-04-11T20:33:33.308+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2023-04-11T20:33:33.308+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2023-04-11T20:33:33.308+0000 I CONTROL  [initandlisten] 
+> use db
+switched to db db
+> use crm
+switched to db crm
+> show collections
+clientes
+clientes2
+> 
