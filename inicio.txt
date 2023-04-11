@@ -23,12 +23,12 @@ switched to db crm
 > 
 Creo un cliente por consola:
 
-db.clientes.insert( { id: 1, nombre: "Juan", tipo: "A", vents: 150 } )
-> db.clientes.insert( { id: 1, nombre: "David", tipo: "B", vents: 50 } )
+db.clientes.insert( { id: 1, nombre: "Juan", tipo: "A", ventas: 150 } )
+> db.clientes.insert( { id: 1, nombre: "David", tipo: "B", ventas: 50 } )
 WriteResult({ "nInserted" : 1 })
-> db.clientes.insert( { id: 1, nombre: "Roger", tipo: "B", vents: 250 } )
+> db.clientes.insert( { id: 1, nombre: "Roger", tipo: "B", ventas: 250 } )
 WriteResult({ "nInserted" : 1 })
-> db.clientes.insert( { id: 1, nombre: "Pepe", tipo: "A", vents: 25 } )
+> db.clientes.insert( { id: 1, nombre: "Pepe", tipo: "A", ventas: 25 } )
 WriteResult({ "nInserted" : 1 })
 > 
 
@@ -36,26 +36,26 @@ Buscar clientes:
 db.clientes.find()
 
 > db.clientes.find()
-{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
-{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
-{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
-{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "ventas" : 50 }
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
 > 
 
 Oredenar por nombre Ascendente:
 db.clientes.find().sort( { nombre: 1 } )
-{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
-{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
-{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
-{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "ventas" : 50 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
 > 
 
 Oredenar por nombre Descendente:
 db.clientes.find().sort( { nombre: -1 } )
-{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "vents" : 250 }
-{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
-{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
-{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "vents" : 50 }
+{ "_id" : ObjectId("6435c6dfa9403c3eeba8de33"), "id" : 1, "nombre" : "Roger", "tipo" : "B", "ventas" : 250 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 1, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 1, "nombre" : "David", "tipo" : "B", "ventas" : 50 }
 > 
 
 Formato mas legible:
@@ -65,28 +65,28 @@ Formato mas legible:
         "id" : 1,
         "nombre" : "Roger",
         "tipo" : "B",
-        "vents" : 250
+        "ventas" : 250
 }
 {
         "_id" : ObjectId("6435c6f6a9403c3eeba8de34"),
         "id" : 1,
         "nombre" : "Pepe",
         "tipo" : "A",
-        "vents" : 25
+        "ventas" : 25
 }
 {
         "_id" : ObjectId("6435c689a9403c3eeba8de31"),
         "id" : 1,
         "nombre" : "Juan",
         "tipo" : "A",
-        "vents" : 150
+        "ventas" : 150
 }
 {
         "_id" : ObjectId("6435c6cba9403c3eeba8de32"),
         "id" : 1,
         "nombre" : "David",
         "tipo" : "B",
-        "vents" : 50
+        "ventas" : 50
 }
 > 
 
@@ -97,32 +97,32 @@ Buscar por tipo B:
         "id" : 1,
         "nombre" : "Roger",
         "tipo" : "B",
-        "vents" : 250
+        "ventas" : 250
 }
 {
         "_id" : ObjectId("6435c6cba9403c3eeba8de32"),
         "id" : 1,
         "nombre" : "David",
         "tipo" : "B",
-        "vents" : 50
+        "ventas" : 50
 }
 > 
 
 Buscar los clientes que hemos facturado 150€ o mas:
- db.clientes.find({ vents: { $gte: 150 } }).sort({ nombre: 1 }).pretty()
+ db.clientes.find({ ventas: { $gte: 150 } }).sort({ nombre: 1 }).pretty()
 {
         "_id" : ObjectId("6435c689a9403c3eeba8de31"),
         "id" : 1,
         "nombre" : "Juan",
         "tipo" : "A",
-        "vents" : 150
+        "ventas" : 150
 }
 {
         "_id" : ObjectId("6435c6dfa9403c3eeba8de33"),
         "id" : 1,
         "nombre" : "Roger",
         "tipo" : "B",
-        "vents" : 250
+        "ventas" : 250
 }
 > 
 
@@ -140,14 +140,14 @@ TENEMOS CREATE READ y UPDATE DE AQUI HACIA ARRIBA:
 
 ELIMINAR REGISTRO:
 db.clientes.remove( { id: 3 } )> db.clientes.find()
-{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "vents" : 150 }
-{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 2, "nombre" : "David", "tipo" : "B", "vents" : 50 }
-{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 4, "nombre" : "Pepe", "tipo" : "A", "vents" : 25 }
+{ "_id" : ObjectId("6435c689a9403c3eeba8de31"), "id" : 1, "nombre" : "Juan", "tipo" : "A", "ventas" : 150 }
+{ "_id" : ObjectId("6435c6cba9403c3eeba8de32"), "id" : 2, "nombre" : "David", "tipo" : "B", "ventas" : 50 }
+{ "_id" : ObjectId("6435c6f6a9403c3eeba8de34"), "id" : 4, "nombre" : "Pepe", "tipo" : "A", "ventas" : 25 }
 > 
 
 Queremos saber cuanteas ventas hemops hecho al cliente del tipo A o B:
 
-db.clientes.aggregate( [ { $match: {} },   { $group: { _id: { tipo: "$tipo" }, total: { $sum: "$vents" } } } ] )
+db.clientes.aggregate( [ { $match: {} },   { $group: { _id: { tipo: "$tipo" }, total: { $sum: "$ventas" } } } ] )
 { "_id" : { "tipo" : "B" }, "total" : 50 }
 { "_id" : { "tipo" : "A" }, "total" : 175 }
 > 
