@@ -62,3 +62,45 @@ done
 #     Validar la entrada del usuario: se pueden validar los datos ingresados por el usuario para asegurarse de que solo se ingresen datos válidos y seguros. Por ejemplo, se pueden utilizar expresiones regulares para validar el formato de los datos, o limitar la cantidad de caracteres que se pueden ingresar.
 
 # Es importante tener en cuenta que ninguna medida de seguridad es completamente efectiva, por lo que es recomendable utilizar varias medidas de seguridad para reducir el riesgo de inyección de comandos maliciosos.
+
+
+#EQUIVALENTE A PYTHON3:
+import os
+import subprocess
+
+# Definimos una lista de tuplas con las opciones del menú. Cada tupla tiene dos elementos: el nombre de la opción y el comando correspondiente.
+opciones = [
+    ("Mostrar directorio:", "gnome-terminal -e 'ls'"),
+    ("Ejecutar contenedor de MongoDB:", "gnome-terminal -e 'sudo docker run --rm --name mongo mongo:3.6.22-xenial'"),
+    ("Acceder al shell de MongoDB:", "(gnome-terminal -e 'sudo docker exec -it mongo /bin/bash' &) && sleep 5"),
+    ("Mostrar bases de datos:", "mongo --quiet --eval 'db.runCommand({listDatabases: 1})'"),
+    ("Crear una nueva base de datos:", "mongo --quiet --eval 'use <nombre de la base de datos>'"),
+    ("Mostrar colecciones de una base de datos:", "mongo <nombre de la base de datos> --quiet --eval 'db.getCollectionNames()'"),
+    ("Insertar un nuevo documento en una colección:", "mongo <nombre de la base de datos> --quiet --eval 'db.<nombre de la colección>.insert({ <campo1>: <valor1>, <campo2>: <valor2>, ... })'"),
+    ("Actualizar un documento en una colección:", "mongo <nombre de la base de datos> --quiet --eval 'db.<nombre de la colección>.update({ <campo>: <valor> }, { $set: { <campo1>: <valor1>, <campo2>: <valor2>, ... } })'"),
+    ("Eliminar un documento de una colección:", "mongo <nombre de la base de datos> --quiet --eval 'db.<nombre de la colección>.remove({ <campo>: <valor> })'"),
+    ("Salir:", "exit 0")
+]
+
+while True:
+    os.system('clear')
+    print("Ingrese el número de la opción deseada:")
+    for i, (opcion, _) in enumerate(opciones):
+        print(f"{i}. {opcion}")
+
+    opcion = input()
+
+    if opcion.isdigit():
+        opcion = int(opcion)
+        if 0 <= opcion < len(opciones):
+            os.system('clear')
+            comando = opciones[opcion][1]
+            subprocess.run(comando, shell=True)
+            print("\nPresione Enter para continuar...")
+            input()
+        else:
+            print("Opción inválida. Presione Enter para continuar...")
+            input()
+    else:
+        print("Opción inválida. Presione Enter para continuar...")
+        input()
